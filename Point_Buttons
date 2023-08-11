@@ -1,0 +1,72 @@
+//The pins are connected to a button circuit and led, and set to this as a constant.
+const int buttonPin1 = 10;
+const int buttonPin2 = 11;
+const int ledPin = 13;
+
+//Button state is simply to track 'if pressed'
+int buttonState = 0;
+int buttonState2 = 0;
+int score = 0;
+
+void setup()
+{
+pinMode(buttonPin1, INPUT);
+pinMode(buttonPin2, INPUT);
+pinMode(ledPin, OUTPUT);
+pinMode(LED_BUILTIN, OUTPUT);
+Serial.begin(9600);           //Setup serial on 9600 baud.
+}
+
+void loop() {
+//Check if buttons are pressed
+buttonState = digitalRead(buttonPin1);
+buttonState2 = digitalRead(buttonPin2);
+//TODO: If either button state is high, check which and add/sub accordingly.
+
+  //Button 1 is score/good thing, so points if it's on!
+  if (buttonState == HIGH) 
+  {
+    // turn LED on:
+    digitalWrite(ledPin, HIGH);
+       score += 1;
+       Serial.println("Score!");
+       Serial.println(score);
+       Flash();
+       //Delay is so you have a human delay, and won't get 10 points from a single press!
+       delay(1000);
+  } 
+
+
+  if (buttonState2 == HIGH) 
+  {
+    digitalWrite(ledPin, HIGH);
+    score -= 2;
+    Serial.println("Foul! Lose 2 points!");
+    //Score should never be negative! Simple protection that runs only when subtracting points for slight optimization.
+    if (score <= -1)
+    { 
+      score = 0;
+    }
+    Serial.println(score);
+    Flash();
+    //Delay is so you have a human delay!
+    delay(1000);
+  }
+
+  else 
+  {
+    //Set to off by default until either if statement says otherwise.
+    digitalWrite(ledPin, LOW);
+  }
+
+}
+
+void Flash() 
+{
+  digitalWrite(LED_BUILTIN, LOW); //pulse off
+  digitalWrite(12, LOW); 
+  delay(100); //0.1 second delay
+  digitalWrite(LED_BUILTIN, HIGH); //pulse on
+  digitalWrite(12, HIGH);
+  delay(100); //0.1 second delay
+}
