@@ -1,0 +1,17 @@
+//set 12 as our LED pin and make sure it can't be altered, thus constant.
+const int led2 = 12;
+
+void setup() {
+  // initialize onboard digital LED(special) as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(led2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH); //Set On
+  digitalWrite(led2, HIGH); 
+  delay(1000);                    //Hold that on!
+  digitalWrite(LED_BUILTIN, LOW); //Set off
+  digitalWrite(led2, LOW);   
+  delay(500); //slightly slower delay so it has a 'strobe' effect before the next cycle!
+}
